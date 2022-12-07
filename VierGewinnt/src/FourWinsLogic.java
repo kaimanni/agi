@@ -41,18 +41,18 @@ public class FourWinsLogic {
 		int start_row = row;
 		var first = board.get(column).get(row);
 		while (true) {
-			if (start_column - x_dir < 0 || start_row - y_dir < 0 || start_row - y_dir > 5)
-				break;
-			var column_list = board.get(start_column - x_dir);
-			if (column_list.size() <= start_row - y_dir)
-				break;
-			var chip = column_list.get(start_row - y_dir);
-			if (chip != first)
-				break;
 			start_column -= x_dir;
 			start_row -= y_dir;
+			if (start_column < 0 || start_row < 0 || start_row > 5)
+				break;
+			var column_list = board.get(start_column);
+			if (column_list.size() <= start_row)
+				break;
+			var chip = column_list.get(start_row);
+			if (chip != first)
+				break;
 		}
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			start_column += x_dir;
 			start_row += y_dir;
 			if (start_column > 6 || start_row > 5 || start_row < 0)
