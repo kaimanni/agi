@@ -41,29 +41,29 @@ public class FourWinsLogic {
 		int start_row = row;
 		var first = board.get(column).get(row);
 		while (true) {
+			if (start_column - x_dir < 0 || start_row - y_dir < 0 || start_row - y_dir > 5)
+				break;
+			var column_list = board.get(start_column - x_dir);
+			if (column_list.size() <= start_row - y_dir)
+				break;
+			var chip = column_list.get(start_row - y_dir);
+			if (chip != first)
+				break;
 			start_column -= x_dir;
 			start_row -= y_dir;
-			if (!checkNextChip(start_column, start_row, first))
-				break;
 		}
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			start_column += x_dir;
 			start_row += y_dir;
-			if (!checkNextChip(start_column, start_row, first))
+			if (start_column > 6 || start_row > 5 || start_row < 0)
+				return false;
+			var column_list = board.get(start_column);
+			if (column_list.size() <= start_row)
+				return false;
+			var chip = column_list.get(start_row);
+			if (first != chip)
 				return false;
 		}
-		return true;
-	}
-
-	private boolean checkNextChip(int column, int row, Chip first) {
-		if (column < 0 || column > 6 || row > 5 || row < 0)
-			return false;
-		var column_list = board.get(column);
-		if (column_list.size() <= row)
-			return false;
-		var chip = column_list.get(row);
-		if (first != chip)
-			return false;
 		return true;
 	}
 	
